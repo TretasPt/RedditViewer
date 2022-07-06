@@ -6,8 +6,12 @@ import org.json.JSONObject;
 
 public class JsonFetcher {
 
-    public static JSONObject fetchJson() throws Exception {
-        String url = "https://reddit.com/u/notmysecretacount.json";
+    public static void main(String[] args) throws Exception{
+        System.out.print(fetchJson("notmysecretacount"));
+    }
+
+    public static JSONObject fetchJson(String user) throws Exception {
+        String url = "https://reddit.com/u/"+user+".json";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         // optional default is GET
