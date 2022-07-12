@@ -1,4 +1,6 @@
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,8 +17,8 @@ public class JsonReader {
     public static final String textOutputColorBlue = "\u001B[34m";
     public static final String textOutputColorRed = "\u001B[31m";
 
-    public static int posts=0;
-    public static int words=0;
+    private static int posts=0;
+    private static int words=0;
 
 
     public static void main(String[] args)throws JSONException, IOException{
@@ -42,35 +44,41 @@ public class JsonReader {
     }
 
     
-    public static void printJson(JSONObject obj){
+    public static String printJson(JSONObject obj){
+        String output="";
         JSONArray children = obj.getJSONObject("data").getJSONArray("children");
 
         for (int i = 0 ; i != children.length();i++){
             
             JSONObject post = children.getJSONObject(i);
-            print(post);
+            output+=print(post)+"\n\n\n\n";
             // System.out.println(textOutputColorBlue+ statsWc(post)+textOutputColorReset);
             System.out.println("\n\n\n\n");
         }
 
         System.out.println("Posts: "+posts+"\nWords: "+words+"\nAverage: "+(words/posts));
+        return output;
     }
 
-    static void print(JSONObject post){
+    private static String print(JSONObject post){
         // System.out.println(post.getString("kind"));
+        String output="";
         switch (post.getString("kind")){
             case "t1":
-            printT1(post);
+            output+=printT1(post);
             break;
             case "t2":
             System.out.println(textOutputColorRed+"An error has occurred. kind="+post.getString("kind")+textOutputColorReset+"\t\tI don't know how to handle t2 yet.");
+            output+="An error has occurred. kind="+post.getString("kind")+"\t\tI don't know how to handle t2 yet.";
             break;
             case "t3":
-            printT3(post);
+            output+=printT3(post);
             break;
             default:
             System.out.println(textOutputColorRed+"An error has occurred. kind="+post.getString("kind")+textOutputColorReset);
+            output+="An error has occurred. kind="+post.getString("kind");
         }
+        return output;
         // if (!post.getString("kind").equals("t3")){
         //     System.out.println("1?");
         // }//{continue;}
@@ -80,19 +88,27 @@ public class JsonReader {
         // // System.out.println(post.getJSONObject("data").getString("title")+"\n\n"+post.getJSONObject("data").getString("selftext"));
     }
 
-    static void printT1(JSONObject post){
-
+    private static String printT1(JSONObject post){
+        return "";
     }
 
-    static void printT3(JSONObject post){
-        System.out.println(textOutputColorBlue+post.getJSONObject("data").getString("title")+textOutputColorReset+"\n\n"+post.getJSONObject("data").getString("selftext"));
-        System.out.println(textOutputColorBlue+ statsWc(post)+textOutputColorReset);
+    private static String printT3(JSONObject post){
+        System.out.println(textOutputColorBlue+post.getJSONObject("data").getString("title")+textOutputColorReset+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+textOutputColorBlue+ statsWc(post)+textOutputColorReset);
         words+=statsWc(post);
         posts++;
+        return post.getJSONObject("data").getString("title")+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+statsWc(post);
     }
 
-    static int statsWc(JSONObject post){
+    private static int statsWc(JSONObject post){
         return post.getJSONObject("data").getString("selftext").split("[ \n]").length;
+    }
+
+    public static void toFile(String object, String filename) throws IOException{
+        Writer output = new FileWriter(filename);
+        // object.write(output);
+        output.write(object);
+        output.flush();
+        output.close();
     }
 
 }
