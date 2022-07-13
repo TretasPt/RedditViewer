@@ -23,8 +23,7 @@ public class JsonReader {
 
     public static void main(String[] args)throws JSONException, IOException{
 
-        // Path path = Paths.get("C:/Users/Utilizador/Downloads/notmysecretacount.json");
-        Path path = Paths.get("C:/Users/Utilizador/Desktop/reddit... - Cópia.txt");
+        Path path = Paths.get("example.json");
  
                
         String ls = System.lineSeparator();
@@ -32,12 +31,8 @@ public class JsonReader {
         StringBuilder contentBuilder = new StringBuilder();
         Stream<String> stream = Files.lines(path, StandardCharsets.UTF_8);
         stream.forEach(s -> contentBuilder.append(s).append(ls));
-        // System.out.println(contentBuilder.toString());
         stream.close();
         JSONObject obj = new JSONObject(contentBuilder.toString());
-
-        // System.out.println("\n\n\n\ntype: "+JSONObject.getNames(obj));  
-        // System.out.println("\n\n\n\ndata:\n "+obj.getJSONObject("data").getJSONArray("children"));  
 
         printJson(obj);
         

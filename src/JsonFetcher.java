@@ -12,8 +12,7 @@ import org.json.JSONObject;
 public class JsonFetcher {
 
     public static void main(String[] args) throws Exception{
-        System.out.print("\n\n\n"+fetchJson("notmysecretacount")+"\n\n\n");
-        // fetchJson("notmysecretacount");
+        System.out.print("\n\n\n"+fetchJson("TretasPt")+"\n\n\n");//My main reddit account.
     }
 
     private static JSONObject fetchJsonShort(String user,String startingPoint) throws Exception {
@@ -80,5 +79,5 @@ public class JsonFetcher {
         output.flush();
         output.close();
     }
-    
+
 }
