@@ -88,6 +88,7 @@ public class JsonReader {
     }
 
     private static String printT3(JSONObject post){
+        //selftext;title;subreddit;created;created_utc;type(text)
         System.out.println(textOutputColorBlue+post.getJSONObject("data").getString("title")+textOutputColorReset+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+textOutputColorBlue+ statsWc(post)+textOutputColorReset);
         words+=statsWc(post);
         posts++;
