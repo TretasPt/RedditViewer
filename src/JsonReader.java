@@ -1,11 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
+import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,19 +21,23 @@ public class JsonReader {
 
     public static void main(String[] args)throws JSONException, IOException{
 
-        Path path = Paths.get("example.json");
- 
-               
-        String ls = System.lineSeparator();
+        String data="";
+        try {
+            File myObj = new File("output/example.json");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+              data += myReader.nextLine();
+            //   System.out.println(data);
+            }
+            myReader.close();
+          } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+          }
 
-        StringBuilder contentBuilder = new StringBuilder();
-        Stream<String> stream = Files.lines(path, StandardCharsets.UTF_8);
-        stream.forEach(s -> contentBuilder.append(s).append(ls));
-        stream.close();
-        JSONObject obj = new JSONObject(contentBuilder.toString());
+        JSONObject obj = new JSONObject(data);
 
         printJson(obj);
-        
     }
 
     
