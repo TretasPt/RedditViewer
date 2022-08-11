@@ -115,30 +115,30 @@ public class Extras {
 
 
 
-        //draw the graph limits.
+        // //draw the graph limits.
 
-        //vertical
-        for(int j = 0; j!=rangeSize;j++)graph+=" ";
-        graph+="^\n"+printPadded(maxY,rangeSize)+"|\n";
-        for (int i=0; i!= limitedYsize;i++){
-            for(int j = 0; j!=rangeSize;j++)graph+=" ";
-            graph+="|";
-            for(int j = 0; j!=limitedXsize;j++)graph+=" ";//"░";//"█";
-            graph+="\n";
-        }
-        //horizontal
-        graph+=printPadded(minY,rangeSize)+"+";
-        for(int i = 0; i!=limitedXsize;i++)graph+="-";
-        graph+=">";
-
-
+        // //vertical
+        // for(int j = 0; j!=rangeSize;j++)graph+=" ";
+        // graph+="^\n"+printPadded(maxY,rangeSize)+"|\n";
+        // for (int i=0; i!= limitedYsize;i++){
+        //     for(int j = 0; j!=rangeSize;j++)graph+=" ";
+        //     graph+="|";
+        //     for(int j = 0; j!=limitedXsize;j++)graph+=" ";//"░";//"█";
+        //     graph+="\n";
+        // }
+        // //horizontal
+        // graph+=printPadded(minY,rangeSize)+"+";
+        // for(int i = 0; i!=limitedXsize;i++)graph+="-";
+        // graph+=">";
 
 
 
-        //draw the graph points.
-        for (int i=0; i!= data.length;i++){
+
+
+        // //draw the graph points.
+        // for (int i=0; i!= data.length;i++){
            
-        }
+        // }
 
 
 
