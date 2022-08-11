@@ -14,8 +14,8 @@ public class App {
         //Save the user activity(json)
         if (saveToFile("json",input)){
             String filenameJson = input.next();
-            JsonFetcher.toFile(json, "../output/"+extensionCheck(filenameJson,"json"));//(json, "../"+filenameJson);
-            System.out.println("JSON object saved to \""+extensionCheck(filenameJson,"json")+"\"");
+            JsonFetcher.toFile(json, "../output/"+Extras.extensionCheck(filenameJson,"json"));//(json, "../"+filenameJson);
+            System.out.println("JSON object saved to \""+Extras.extensionCheck(filenameJson,"json")+"\"");
         }
 
         //Fetch the user activity(formated text)
@@ -23,24 +23,12 @@ public class App {
         //Save the user activity(formated text)
         if (saveToFile("formated text",input)){
             String filenameOutput = input.next();
-            JsonReader.toFile(output, "../output/"+extensionCheck(filenameOutput,"txt"));//(json, "../"+filenameJson);
-            System.out.println("Output saved to \""+extensionCheck(filenameOutput,"txt")+"\"");
+            JsonReader.toFile(output, "../output/"+Extras.extensionCheck(filenameOutput,"txt"));//(json, "../"+filenameJson);
+            System.out.println("Output saved to \""+Extras.extensionCheck(filenameOutput,"txt")+"\"");
         }
 
         input.close();
-
-
-        
-    }
-
-    private static String extensionCheck(String filename, String extention){
-        String[] filenameArr=filename.split(".");
-        if (filenameArr.length<2)
-            return filename+"."+extention;
-        if (filenameArr[filenameArr.length-1].toLowerCase()!=extention.toLowerCase())
-            return filename+"."+extention;
-        return filename;
-
+ 
     }
 
     private static boolean saveToFile(String filetype,Scanner input){

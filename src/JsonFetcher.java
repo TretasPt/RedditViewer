@@ -66,6 +66,8 @@ public class JsonFetcher {
             // System.out.println(after);
         }
 
+        System.out.println(fullJSON);
+
         return fullJSON;
     }
 
