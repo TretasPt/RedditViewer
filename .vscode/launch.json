@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Extras",
+            "request": "launch",
+            "mainClass": "Extras",
+            "projectName": "RedditViewer_3e97067a"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "cwd": "${workspaceFolder}/bin",
             "request": "launch",

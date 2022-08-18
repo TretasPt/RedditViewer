@@ -64,35 +64,35 @@ public class Extras {
     }
     
     public static String simpleGraph(Point[] data,String structureColor, String graphColor){
-        return simpleGraph(data, structureColor, graphColor, 3);
+        return simpleGraph(data, structureColor, graphColor, 2);
     }
     
     public static String simpleGraph(Point[] data,String structureColor, String graphColor,int line){
         //◯■⨷
         //https://www.compart.com/en/unicode/block/U+2580
-        String mark;
+        char mark;
         switch (line){
             case 1:
-            mark="◯";
+            mark='◯';
             break;
             case 2:
-            mark="■";
+            mark='■';
             break;
             default:
-            mark="⨷";
+            mark='⨷';
         }
 
         return simpleGraph(data, structureColor, graphColor, mark);
     }
     
-    public static String simpleGraph(Point[] data,String structureColor, String graphColor,String line){
-        int MAXCONSOLELENGTH = 150;
-        int MAXCONSOLEHIGHT = 40;
+    public static String simpleGraph(Point[] data,String structureColor, String graphColor,char line){
+        int MAXCONSOLELENGTH =150;// 8;
+        int MAXCONSOLEHIGHT =40;// 8;
 
         return simpleGraph(data, structureColor, graphColor, line,MAXCONSOLELENGTH,MAXCONSOLEHIGHT);
     }
 
-    public static String simpleGraph(Point[] data,String structureColor, String graphColor,String line,int maxConsoleLength,int maxConsoleHight){
+    public static String simpleGraph(Point[] data,String structureColor, String graphColor,char line,int maxConsoleLength,int maxConsoleHight){
         String graph ="";
         // ||||+——————
         int minX,minY,maxX,maxY;
@@ -103,57 +103,72 @@ public class Extras {
         for (int i=0; i!= data.length;i++){
             if(data[i].getX()>maxX)maxX=data[i].getX();
             if(data[i].getX()<minX)minX=data[i].getX();
-            if(data[i].getY()>maxY)maxY=data[i].getY();
-            if(data[i].getY()<minY)minY=data[i].getY();
+            // if(data[i].getY()>maxY)maxY=data[i].getY();
+            // if(data[i].getY()<minY)minY=data[i].getY();
         }
-        int Xsize =maxX-minX;
-        int Ysize =maxY-minY;
+        int Xsize =maxX-minX+1;
         int limitedXsize=Math.min(Xsize, maxConsoleLength);
-        int limitedYsize=Math.min(Ysize, maxConsoleHight);
-        int rangeSize=Math.max(String.valueOf(maxY).length(), String.valueOf(minY).length());
         
 
 
+        //group the points
+        int[] values=new int[limitedXsize];
+        for (int i=0; i!= data.length;i++)//{System.out.println(data[i].getX());System.out.println(data[i].getX()-minX);System.out.println((data[i].getX()-minX)*limitedXsize);System.out.println((data[i].getX()-minX)*limitedXsize/Xsize);
+            // values[(data[i].getX()-minX)*limitedXsize/Xsize]+=data[i].getY();
+            values[graphCompression(data[i].getX(), minX, limitedXsize, Xsize)]+=data[i].getY();
+        //}
+        for (int i=0; i!= values.length;i++){
+            // values[(data[i].getX()-minX)*limitedXsize/Xsize]+=data[i].getY();
+            if(values[i]>maxY)maxY=values[i];
+            if(values[i]<minY)minY=values[i];
+        }
+
+
+
+
+        int Ysize =maxY-minY+1;
+        int limitedYsize=Math.min(Ysize, maxConsoleHight);
+        int paddingAmount=Math.max(String.valueOf(maxY).length(), String.valueOf(minY).length());
 
         //draw the graph limits.
-
-        //vertical
-        for(int j = 0; j!=rangeSize;j++)graph+=" ";
-        graph+="^\n"+printPadded(maxY,rangeSize)+"|\n";
-        for (int i=0; i!= limitedYsize;i++){
-            for(int j = 0; j!=rangeSize;j++)graph+=" ";
+        ////vertical
+        for(int j = 0; j!=paddingAmount;j++)graph+=" ";
+        graph+="^\n"+printPadded(maxY,paddingAmount)+"|";
+        for(int j = 0; j!=limitedXsize;j++)graph+=" ";//"░";//"█";
+        graph+="\n";
+        for (int i=1; i!= limitedYsize;i++){
+            for(int j = 0; j!=paddingAmount;j++)graph+=" ";
             graph+="|";
             for(int j = 0; j!=limitedXsize;j++)graph+=" ";//"░";//"█";
             graph+="\n";
         }
-        //horizontal
-        graph+=printPadded(minY,rangeSize)+"+";
+        ////horizontal
+        graph+=printPadded(minY,paddingAmount)+"+";
         for(int i = 0; i!=limitedXsize;i++)graph+="-";
-        graph+=">";
-
-
-
+        graph+=">\n";
+        graph+="Graph proportions:\nVertical: "+String.valueOf((float)Ysize/limitedYsize)+"\nHorizontal: "+String.valueOf((float)Xsize/limitedXsize);
 
 
         //draw the graph points.
-        for (int i=0; i!= data.length;i++){
-           
-        }
+        char[] charGraph=graph.toCharArray();
+        // for (int i=0;i!=values.length;i++)drawPoint(charGraph, values[i]);
+        drawPoints(charGraph, values,line,paddingAmount,limitedXsize,minY,limitedYsize,Ysize);
 
 
 
 
-
+        graph=new String(charGraph);
         graph+="\n\nThis graph may not be acurate with some specific amounts of data and graph sizes.";
+        // graph+="a";
 
-        graph+="\n\nGRAPH HERE\n\n";
+        // graph+="\n\nGRAPH HERE\n\n";
 
 
         System.out.println(graph);
+        // System.out.println(charGraph);
+
 
         return graph;
-
-
     }
 
     public static String printPadded(int toPrint,int size){
@@ -164,12 +179,97 @@ public class Extras {
         return space+String.valueOf(toPrint);
     }
 
+    public static void printLogo(){
+
+        
+        //███████████████████████████████████████████████████████████████████████████████████████████████████████████
+        //███████████████████████████████████████████████████████████████████████████████████████████████████████████
+        //███████████████████████████████████████████████████████████████████████████████████████████████████████████
+        //              ████████
+        //              ████████      █████████████████████          ██████████████████████████████████
+        //              ████████      ████████████████████████       ██████████████████████████████████
+        //              ████████      ██████              █████                   ██████
+        //              ████████      ██████              █████                   ██████
+        //              ████████      ██████              █████                   ██████
+        //              ████████      ██████              █████                   ██████
+        //              ████████      ██████              █████                   ██████
+        //              ████████      ████████████████████████                    ██████
+        //              ████████      █████████████████████                       ██████
+        //              ████████      ██████                                      ██████
+        //              ████████      ██████                                      ██████
+        //              ████████      ██████                                      ██████
+        //              ████████      ██████                                      ██████
+        //              ████████      ██████                                      ██████
+        //              ████████      ██████                                      ██████
+
+        //█████████████████████████████████████████████████████████████████████████████████████████████████████████████
+        //██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██
+        //██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██
+        //████████████████░░░░░░███████████████████████████████████████████████████████████████████████████████████████
+        //              ██░░░░░░██
+        //              ██░░░░░░██      ██████████████████████         ████████████████████████████████████
+        //              ██░░░░░░██      ██░░░░░░░░░░░░░░░░░░░░███      ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██
+        //              ██░░░░░░██      ██░░█████████████████░░░██     █████████████████░░█████████████████
+        //              ██░░░░░░██      ██░░██              ██░░██                    ██░░██
+        //              ██░░░░░░██      ██░░██              ██░░██                    ██░░██
+        //              ██░░░░░░██      ██░░██              ██░░██                    ██░░██
+        //              ██░░░░░░██      ██░░██              ██░░██                    ██░░██
+        //              ██░░░░░░██      ██░░██              ██░░██                    ██░░██
+        //              ██░░░░░░██      ██░░█████████████████░░░██                    ██░░██
+        //              ██░░░░░░██      ██░░░░░░░░░░░░░░░░░░░░███                     ██░░██
+        //              ██░░░░░░██      ██░░██████████████████                        ██░░██
+        //              ██░░░░░░██      ██░░██                                        ██░░██
+        //              ██░░░░░░██      ██░░██                                        ██░░██
+        //              ██░░░░░░██      ██░░██                                        ██░░██
+        //              ██░░░░░░██      ██░░██                                        ██░░██
+        //              ██░░░░░░██      ██░░██                                        ██░░██
+        //              ██████████      ██████                                        ██████
+        
+        
+        
+        // System.out.println("███████████████████████████████████████████████████████████████████████████████████████████████████████████\n███████████████████████████████████████████████████████████████████████████████████████████████████████████\n███████████████████████████████████████████████████████████████████████████████████████████████████████████\n              ████████\n              ████████      █████████████████████          ██████████████████████████████████\n              ████████      ████████████████████████       ██████████████████████████████████\n              ████████      ██████              █████                   ██████\n              ████████      ██████              █████                   ██████\n              ████████      ██████              █████                   ██████\n              ████████      ██████              █████                   ██████\n              ████████      ██████              █████                   ██████\n              ████████      ████████████████████████                    ██████\n              ████████      █████████████████████                       ██████\n              ████████      ██████                                      ██████\n              ████████      ██████                                      ██████\n              ████████      ██████                                      ██████\n              ████████      ██████                                      ██████\n              ████████      ██████                                      ██████\n              ████████      ██████                                      ██████");
+        System.out.println("█████████████████████████████████████████████████████████████████████████████████████████████████████████████\n██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██\n██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██\n████████████████░░░░░░███████████████████████████████████████████████████████████████████████████████████████\n              ██░░░░░░██\n              ██░░░░░░██      ██████████████████████         ████████████████████████████████████\n              ██░░░░░░██      ██░░░░░░░░░░░░░░░░░░░░███      ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██\n              ██░░░░░░██      ██░░█████████████████░░░██     █████████████████░░█████████████████\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░█████████████████░░░██                    ██░░██\n              ██░░░░░░██      ██░░░░░░░░░░░░░░░░░░░░███                     ██░░██\n              ██░░░░░░██      ██░░██████████████████                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██████████      ██████                                        ██████\n\n\n\n");
+        System.out.println("RedditViewer.\n\n\n\n");
+    }
+
+    public static void drawPoints(char[] charGraph,int[] values, char line,int paddingAmount,int graphlength,int minY,int limitedYSize,int Ysize){
+        for (int i=0;i!=values.length;i++)charGraph[graphCoordinates(i,values[i],paddingAmount,graphlength,minY,limitedYSize,Ysize)]=line;//drawPoint(charGraph, values[i]);
+        // String data = graph[0];
+
+        // graph[0]+="test";
+
+        // charGraph[23]='s';
+
+    }
+
+    public static int graphCoordinates(int x,int y,int paddingAmount,int graphLenght,int minY,int limitedYSize,int Ysize){
+        int modifiedX=x;
+        int modifiedY;
+        modifiedY=limitedYSize-graphCompression(y, minY, limitedYSize, Ysize)-1;
+        // modifiedY=(int)((Math.sin(modifiedX*25*3)+1)*10);
+
+        int temp;
+        temp=paddingAmount+1+1;//padding+"^"+"\n"
+        temp+=(paddingAmount+1);//goes to the beggining of the graph
+        temp+=(paddingAmount+1+graphLenght+1)*modifiedY;//modifiedY*graphLenght;
+        temp+=modifiedX;
+        return temp;
+    }
+
+    public static int graphCompression(int current,int min,int limitedSize, int size){
+
+        return(int)(((long)current-min)*limitedSize/size);
+
+    }
 
 
     public static void main(String[] Args){
-        Point[] data=new Point[2];
-        data[0]=new Point(-5, -100);
-        data[1]=new Point(10000,400);
+        Point[] data=new Point[5];
+        data[0]=new Point(0, 20);
+        data[1]=new Point(8, 10);
+        data[2]=new Point(5, 10);
+        data[3]=new Point(10, 10);
+        data[4]=new Point(200,20);
         simpleGraph(data);
     }
 

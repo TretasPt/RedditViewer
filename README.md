@@ -28,6 +28,7 @@ Command line only(for now).
 #
 ## TODO
 
+- improve the graph implementation(it currently relies on editing a char array);
 - fix the word count function;   
 - find out what is a post of kind t2.(t1=comment,t3=textpost);    
 - search limitations to the ammount of posts one can fetch from reddit;    

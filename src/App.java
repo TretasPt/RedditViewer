@@ -4,6 +4,11 @@ import org.json.JSONObject;
 
 public class App {
     public static void main(String[] args) throws Exception {
+
+        Extras.printLogo();
+
+
+
         //Get the username
         System.out.print("Enter the username:\n");
         Scanner input = new Scanner(System.in);
