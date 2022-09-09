@@ -29,6 +29,12 @@ Command line only(for now).
 ## TODO
 
 - improve the graph implementation(it currently relies on editing a char array);
+- ask if json object and if the posts should be printed in the terminal;
+- make the app keep running until closed;
+- request terminal size for the graph;
+- add separate graph for posts/time in adition to the current words/time;
+- ~~prevent divide by 0 in accounts without posts/comments;~~
+- check if the URL response = 200(check if account/subreddit exists and there is a connection);
 - fix the word count function;   
 - find out what is a post of kind t2.(t1=comment,t3=textpost);    
 - search limitations to the ammount of posts one can fetch from reddit;    

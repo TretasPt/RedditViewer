@@ -55,7 +55,7 @@ public class JsonReader {
             JSONObject post = children.getJSONObject(i);
             output+=print(post)+"\n\n------------------------------------------------------------------------------------------------------------------------------------------------------\n\n";
             // System.out.println(textOutputColorBlue+ statsWc(post)+textOutputColorReset);
-            System.out.println("\n\n------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
+            // System.out.println("\n\n------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
 
 
             int x=post.getJSONObject("data").getInt("created_utc");
@@ -67,13 +67,16 @@ public class JsonReader {
         }
 
         //Graph
-        System.out.println("\n\n" + Extras.simpleGraph(graphPoints,"textOutputColorBlue","textOutputColorYellow"));
+        // System.out.println("\n\n" + Extras.simpleGraph(graphPoints,"textOutputColorBlue","textOutputColorYellow"));
         output+="\n\n" + Extras.simpleGraph(graphPoints);
     
         //Statistics
-        System.out.println("Posts: "+posts+"\nWords: "+wordsP+"\nAverage: "+(wordsP/posts)+"\n\nComments: "+comments+"\nWords: "+wordsC+"\nAverage: "+(wordsC/comments));
-        output+="Posts: "+posts+"\nWords: "+wordsP+"\nAverage: "+(wordsP/posts)+"\n\nComments: "+comments+"\nWords: "+wordsC+"\nAverage: "+(wordsC/comments);
+        // System.out.println("Posts: "+posts+"\nWords: "+wordsP+"\nAverage: "+(wordsP/posts)+"\n\nComments: "+comments+"\nWords: "+wordsC+"\nAverage: "+(wordsC/comments));
+        
+        // output+="Posts: "+posts+"\nWords: "+wordsP+"\nAverage: "+(wordsP/posts)+"\n\nComments: "+comments+"\nWords: "+wordsC+"\nAverage: "+(wordsC/comments);
+        output+=Extras.showStats(posts,wordsP,comments,wordsC);
 
+        System.out.println(output);//temporary
         return output;
     }
 
@@ -98,7 +101,7 @@ public class JsonReader {
     }
 
     private static String printT1(JSONObject post){
-        System.out.println(textOutputColorYellow+post.getJSONObject("data").getString("body")+textOutputColorReset+ "\n"+Extras.statsWc(post)+textOutputColorReset);
+        // System.out.println(textOutputColorYellow+post.getJSONObject("data").getString("body")+textOutputColorReset+ "\n"+Extras.statsWc(post)+textOutputColorReset);
         wordsC+=Extras.statsWc(post);
         comments++;
         // return post.getJSONObject("data").getString("title")+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+statsWc(post);
@@ -107,7 +110,7 @@ public class JsonReader {
 
     private static String printT3(JSONObject post){
         //selftext;title;subreddit;created;created_utc;type(text)
-        System.out.println(textOutputColorBlue+post.getJSONObject("data").getString("title")+textOutputColorReset+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+textOutputColorBlue+ Extras.statsWc(post)+textOutputColorReset);
+        // System.out.println(textOutputColorBlue+post.getJSONObject("data").getString("title")+textOutputColorReset+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+textOutputColorBlue+ Extras.statsWc(post)+textOutputColorReset);
         wordsP+=Extras.statsWc(post);
         posts++;
         return post.getJSONObject("data").getString("title")+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+Extras.statsWc(post);

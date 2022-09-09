@@ -12,22 +12,22 @@ import org.json.JSONObject;
 public class JsonFetcher {
 
     public static void main(String[] args) throws Exception{
-        System.out.print("\n\n\n"+fetchJson("TretasPt")+"\n\n\n");//My main reddit account.
+        System.out.print("\n\n\n"+fetchJson("TretasPt",0,'u')+"\n\n\n");//My main reddit account.
     }
 
-    private static JSONObject fetchJsonShort(String user,String startingPoint) throws Exception {
+    private static JSONObject fetchJsonShort(String user,String startingPoint,char type) throws Exception {
         String after ="";
         if (startingPoint!=""){after="?after="+startingPoint;}
-        String url = "https://reddit.com/u/"+user+".json"+after;
+        String url = "https://reddit.com/"+type+"/"+user+".json"+after;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         // optional default is GET
         con.setRequestMethod("GET");
         //add request header
         con.setRequestProperty("User-Agent", "Mozilla/5.0");
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
+        // int responseCode = con.getResponseCode();
+        // System.out.println("\nSending 'GET' request to URL : " + url);
+        // System.out.println("Response Code : " + responseCode);
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -42,8 +42,13 @@ public class JsonFetcher {
 
       }
 
-    public static JSONObject fetchJson(String user) throws Exception {
-        JSONObject fullJSON = fetchJsonLatest(user);
+    public static JSONObject fetchJson(String user,long timeout,char type) throws Exception {//timeout in seconds
+
+        boolean unlimited = timeout>0 ? false : true;
+        long initialTime= System.nanoTime();
+        // System.out.println(initialTime);
+        
+        JSONObject fullJSON = fetchJsonLatest(user,type);
 
         JSONObject fullData = fullJSON.getJSONObject("data");
         JSONObject tempData;
@@ -51,8 +56,12 @@ public class JsonFetcher {
         String after = fullData.optString("after");
         // System.out.println(after);
 
-        while(after!=""){
-            tempData=fetchJsonShort(user,after).getJSONObject("data");
+        
+        System.out.println("Posts found: "+ fullData.getInt("dist"));
+
+        while(after!="" && (unlimited || System.nanoTime()-initialTime <= timeout*1000000000)){
+            // System.out.println(initialTime+"-"+System.nanoTime()+"="+(System.nanoTime()-initialTime)+"<="+timeout*1000000000+"-->"+(System.nanoTime()-initialTime <= timeout*1000000000));
+            tempData=fetchJsonShort(user,after,type).getJSONObject("data");
             after=tempData.optString("after");
             childrenArray=tempData.getJSONArray("children");
 
@@ -60,19 +69,22 @@ public class JsonFetcher {
                 fullData.accumulate("children", childrenArray.getJSONObject(i));
             }
 
+            fullData.put("dist", fullData.getInt("dist")+tempData.getInt("dist"));
             
             fullData.putOpt("after", after);
             
+            System.out.println("Posts found: "+ fullData.getInt("dist"));
+
             // System.out.println(after);
         }
 
-        System.out.println(fullJSON);
+        System.out.println(fullJSON);//temporary
 
         return fullJSON;
     }
 
-    public static JSONObject fetchJsonLatest(String user) throws Exception {
-      return fetchJsonShort(user, "");
+    public static JSONObject fetchJsonLatest(String user,char type) throws Exception {
+      return fetchJsonShort(user, "",type);
     }
 
     public static void toFile(JSONObject object, String filename) throws IOException{

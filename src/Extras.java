@@ -1,4 +1,13 @@
 import org.json.JSONObject;
+import java.util.Scanner;
+
+// import java.awt.event.*;
+
+// // import java.awt.event;
+// import java.io.Console;
+// import java.lang.System;
+
+// import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 
 public class Extras {
 
@@ -86,8 +95,8 @@ public class Extras {
     }
     
     public static String simpleGraph(Point[] data,String structureColor, String graphColor,char line){
-        int MAXCONSOLELENGTH =150;// 8;
-        int MAXCONSOLEHIGHT =40;// 8;
+        int MAXCONSOLELENGTH =150;//203;// 8;
+        int MAXCONSOLEHIGHT =40;//45;// 8;
 
         return simpleGraph(data, structureColor, graphColor, line,MAXCONSOLELENGTH,MAXCONSOLEHIGHT);
     }
@@ -146,7 +155,7 @@ public class Extras {
         graph+=printPadded(minY,paddingAmount)+"+";
         for(int i = 0; i!=limitedXsize;i++)graph+="-";
         graph+=">\n";
-        graph+="Graph proportions:\nVertical: "+String.valueOf((float)Ysize/limitedYsize)+"\nHorizontal: "+String.valueOf((float)Xsize/limitedXsize);
+        graph+="Graph proportions:\nVertical: "+String.valueOf((float)Ysize/limitedYsize)+" words\nHorizontal: "+String.valueOf((float)Xsize/limitedXsize)+"seconds = "+String.valueOf((float)Xsize/limitedXsize/3600)+"hours = "+String.valueOf((float)Xsize/limitedXsize/3600/24)+"days = "+String.valueOf((float)Xsize/limitedXsize/3600/24/7) +"weeks = "+String.valueOf((float)Xsize/limitedXsize/3600/24/30.4)+"months";
 
 
         //draw the graph points.
@@ -158,14 +167,14 @@ public class Extras {
 
 
         graph=new String(charGraph);
-        graph+="\n\nThis graph may not be acurate with some specific amounts of data and graph sizes.";
+        graph+="\n\nThis graph may not be acurate with some specific amounts of data and graph sizes.\n";
         // graph+="a";
 
         // graph+="\n\nGRAPH HERE\n\n";
 
 
         System.out.println(graph);
-        // System.out.println(charGraph);
+        // // System.out.println(charGraph);
 
 
         return graph;
@@ -262,8 +271,159 @@ public class Extras {
 
     }
 
+    public static void clearScreen(){
+        System.out.print("\033[H\033[2J");  //clears the console(first move the cursor, then clear from the cursor down)
+        System.out.flush();  //reset the cursor position
+    }
 
-    public static void main(String[] Args){
+    public static Point getScreenSize() throws InterruptedException{
+
+        // new KeyListener(){};
+        // KeyInfo=Console.
+        Scanner input = new Scanner(System.in);
+        char[] keypressed={'0'};
+
+        int x=12;
+        int y=5;
+
+        lable:
+        while(keypressed.length!=0&&keypressed[0]!='b'){
+            clearScreen();
+            drawSquare(x,y);
+            keypressed = input.nextLine().toCharArray();
+            for(int i=0;i!= keypressed.length;i++){
+                switch (keypressed[i]){
+                    case 'm':
+                        x++;
+                        break;
+                    case 'n':
+                        x--;
+                        break;
+                    case 'l':
+                        y++;
+                        break;
+                    case 'k':
+                        y--;
+                        break;
+                    case 'b':
+                        //Maybe should exit the comparasions.
+                        break lable;
+                    default:
+                }
+            }         
+        }
+        
+        System.out.println("x= "+x+"\ny= "+y);   
+        return new Point(x, y);
+    }
+
+    public static void drawSquare(int x, int y) throws InterruptedException{
+        
+        //■--------------------------------------------■
+        //|                                            |
+        //| Press m/n to increase/decrease the length. |
+        //| Press k/l to increase/decrease the height. |
+        //| Press b to finish.                         |
+        //|                                            |
+        //■--------------------------------------------■
+
+        //■----------■
+        //|x+=m  x-=n|
+        //|y+=k  y-=l|
+        //|  Done=b  |
+        //■----------■
+
+        if (x>=46 && y>=7){
+            System.out.print("■");
+            for(int i=0;i!=x-2;i++){System.out.print("-");}
+            System.out.print("■\n");
+
+            System.out.print("|");
+            System.out.print(" Press m/n t- increase/decrease the length. ");
+            for(int i=0;i!=x-46;i++){System.out.print(" ");}
+            System.out.print("|\n");
+            System.out.print("|");
+            System.out.print(" Press k/l t- increase/decrease the height. ");
+            for(int i=0;i!=x-46;i++){System.out.print(" ");}
+            System.out.print("|\n");
+            System.out.print("|");
+            System.out.print(" Press b t- finish.                         ");
+            for(int i=0;i!=x-46;i++){System.out.print(" ");}
+            System.out.print("|\n");
+
+            for(int j=0;j!=y-5;j++){
+                System.out.print("|");
+                for(int i=0;i!=x-2;i++){System.out.print(" ");}
+                System.out.print("|\n");
+            }
+
+            System.out.print("■");
+            for(int i=0;i!=x-2;i++){System.out.print("-");}
+            System.out.print("■\n");
+        }else if(x>=12 && y>=5){
+            System.out.print("■");
+            for(int i=0;i!=x-2;i++){System.out.print("-");}
+            System.out.print("■\n");
+
+            System.out.print("|");
+            System.out.print("x+=m  x-=n");
+            for(int i=0;i!=x-12;i++){System.out.print(" ");}
+            System.out.print("|\n");
+            System.out.print("|");
+            System.out.print("y+=k  y-=l");
+            for(int i=0;i!=x-12;i++){System.out.print(" ");}
+            System.out.print("|\n");
+            System.out.print("|");
+            System.out.print("  Done=b  ");
+            for(int i=0;i!=x-12;i++){System.out.print(" ");}
+            System.out.print("|\n");
+
+            for(int j=0;j!=y-5;j++){
+                System.out.print("|");
+                for(int i=0;i!=x-2;i++){System.out.print(" ");}
+                System.out.print("|\n");
+            }
+
+            System.out.print("■");
+            for(int i=0;i!=x-2;i++){System.out.print("-");}
+            System.out.print("■\n");
+        }else if(x>1&&y>1){
+            System.out.print("■");
+            for(int i=0;i!=x-2;i++){System.out.print("-");}
+            System.out.print("■\n");
+
+            for(int j=0;j!=y-2;j++){
+                System.out.print("|");
+                for(int i=0;i!=x-2;i++){System.out.print(" ");}
+                System.out.print("|\n");
+            }
+
+            System.out.print("■");
+            for(int i=0;i!=x-2;i++){System.out.print("-");}
+            System.out.print("■\n");
+            System.out.println("Width and hight values should be positive. press m and l to make them higher.");
+
+        }else{
+            x=12;y=5;
+            System.out.println("■----------■\n|x+=m  x-=n|\n|y+=k  y-=l|\n|  Done=b  |\n■----------■");
+            // Thread.sleep(2000);
+        }
+
+
+    }
+
+    public static String showStats(int posts, int wordsP,int comments,int wordsC){
+        String output = "Posts: "+posts+"\nWords: "+wordsP+"\nAverage: ";
+        output+=posts==0? "---":(wordsP/posts);
+        output+="\n\nComments: "+comments+"\nWords: "+wordsC+"\nAverage: ";
+        output+=comments==0? "---":(wordsC/comments);
+        return output;
+        // return "Posts: "+posts+"\nWords: "+wordsP+"\nAverage: "+(wordsP/posts)+"\n\nComments: "+comments+"\nWords: "+wordsC+"\nAverage: "+(wordsC/comments);
+    }
+    
+    public static void main(String[] Args) throws InterruptedException{
+        // KeyListener keylistener = new KeyListener();
+        getScreenSize();
         Point[] data=new Point[5];
         data[0]=new Point(0, 20);
         data[1]=new Point(8, 10);
