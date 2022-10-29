@@ -1,4 +1,9 @@
 import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 // import java.awt.event.*;
@@ -421,6 +426,12 @@ public class Extras {
         // return "Posts: "+posts+"\nWords: "+wordsP+"\nAverage: "+(wordsP/posts)+"\n\nComments: "+comments+"\nWords: "+wordsC+"\nAverage: "+(wordsC/comments);
     }
     
+
+    // public static void temp_save(String url){
+    //     BufferedInputStream in = new BufferedInputStream(new URL(FILE_URL).openStream())
+    //     InputStream in = new URL(FILE_URL).openStream();
+    //     Files.copy(in, Paths.get(FILE_NAME), StandardCopyOption.REPLACE_EXISTING);
+    // }
     public static void main(String[] Args) throws InterruptedException{
         // KeyListener keylistener = new KeyListener();
         getScreenSize();

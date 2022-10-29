@@ -3,11 +3,24 @@ import java.util.Scanner;
 import org.json.JSONObject;
 
 public class App {
+
+    private static boolean saveJason=false;
+    private static boolean saveOutput=false;
+    private static boolean showJason=false;
+    private static boolean showOutput=true;
+    
+
+
+
     public static void main(String[] args) throws Exception {
 
         Extras.clearScreen();
         
         Extras.printLogo();
+
+        // Extras.getScreenSize();
+
+
         
         appLoop();
 
@@ -89,4 +102,13 @@ public class App {
     private static void helpAndCredits(){
 
     }
+
+    private static void setDefaults(){
+
+    }
+
+    private static void analiseArguments(){
+        
+    }
+
 }

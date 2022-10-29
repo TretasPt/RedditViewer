@@ -3,7 +3,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashSet;
+// import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +25,10 @@ public class JsonReader {
     private static int wordsP=0;
     private static int comments=0;
     private static int wordsC=0;
+    private static Set<String> images = new HashSet<String>();
+    private static Set<String> videos = new HashSet<String>();
+    private static Set<String> links = new HashSet<String>();
+    private static Set<String> temp_types = new HashSet<String>();
 
 
     public static void main(String[] args)throws JSONException, IOException{
@@ -53,7 +60,8 @@ public class JsonReader {
         for (int i = 0 ; i != children.length();i++){
             
             JSONObject post = children.getJSONObject(i);
-            output+=print(post)+"\n\n------------------------------------------------------------------------------------------------------------------------------------------------------\n\n";
+            output+=print(post);
+            output+="\n\n------------------------------------------------------------------------------------------------------------------------------------------------------\n\n";
             // System.out.println(textOutputColorBlue+ statsWc(post)+textOutputColorReset);
             // System.out.println("\n\n------------------------------------------------------------------------------------------------------------------------------------------------------\n\n");
 
@@ -66,6 +74,13 @@ public class JsonReader {
             // post.getJSONObject("data").getString("created_utc");
         }
 
+        
+        output+="\n\n"+images;
+        output+="\n\n"+videos;
+        output+="\n\n"+links;
+        output+="\n\n"+temp_types;
+
+        
         //Graph
         // System.out.println("\n\n" + Extras.simpleGraph(graphPoints,"textOutputColorBlue","textOutputColorYellow"));
         output+="\n\n" + Extras.simpleGraph(graphPoints);
@@ -113,7 +128,12 @@ public class JsonReader {
         // System.out.println(textOutputColorBlue+post.getJSONObject("data").getString("title")+textOutputColorReset+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+textOutputColorBlue+ Extras.statsWc(post)+textOutputColorReset);
         wordsP+=Extras.statsWc(post);
         posts++;
-        return post.getJSONObject("data").getString("title")+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+Extras.statsWc(post);
+        String image="";
+        temp_types.add(post.getJSONObject("data").optString("post_hint"));
+        if(post.getJSONObject("data").optString("post_hint").equals("image")){image+="IMAGE\nLink: "+post.getJSONObject("data").optString("url") +"\n\n";images.add(post.getJSONObject("data").optString("url"));};
+        if(post.getJSONObject("data").optString("post_hint").equals("rich:video")){image+="VIDEO\nLink: "+post.getJSONObject("data").optString("url") +"\n\n";videos.add(post.getJSONObject("data").optString("url"));};
+        if(post.getJSONObject("data").optString("post_hint").equals("link")){image+="LINK\nLink: "+post.getJSONObject("data").optString("url") +"\n\n";links.add(post.getJSONObject("data").optString("url"));};
+        return post.getJSONObject("data").getString("title")+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+image+"\n\n"+Extras.statsWc(post);
     }
 
     public static void toFile(String object, String filename) throws IOException{

@@ -6,9 +6,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Extras",
+            "name": "Launch Main",
             "request": "launch",
-            "mainClass": "Extras",
+            "mainClass": "App",
             "projectName": "RedditViewer_3e97067a"
         },
         {
@@ -24,20 +24,6 @@
             "cwd": "${workspaceFolder}/bin",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "RedditViewer_3e97067a"
-        },
-        {
-            "type": "java",
-            "name": "Launch JsonFetcher",
-            "request": "launch",
-            "mainClass": "JsonFetcher",
-            "projectName": "RedditViewer_3e97067a"
-        },
-        {
-            "type": "java",
-            "name": "Launch JsonReader",
-            "request": "launch",
-            "mainClass": "JsonReader",
             "projectName": "RedditViewer_3e97067a"
         }
     ]

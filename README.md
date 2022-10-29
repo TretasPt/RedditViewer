@@ -28,6 +28,8 @@ Command line only(for now).
 #
 ## TODO
 
+- switch to a more object oriented approach;
+- look into the post_hint element in the json to check if type is an image;
 - improve the graph implementation(it currently relies on editing a char array);
 - ask if json object and if the posts should be printed in the terminal;
 - make the app keep running until closed;
