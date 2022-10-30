@@ -14,6 +14,7 @@ public class JsonFetcher {
     public static void main(String[] args) throws Exception{
         System.out.print("\n\n\n"+fetchJson("TretasPt",0,'u')+"\n\n\n");//My main reddit account.
     }
+    
 
     private static JSONObject fetchJsonShort(String user,String startingPoint,char type) throws Exception {
         String after ="";

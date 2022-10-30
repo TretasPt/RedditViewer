@@ -7,9 +7,11 @@
         {
             "type": "java",
             "name": "Launch Main",
+            "cwd": "${workspaceFolder}/bin",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "RedditViewer_3e97067a"
+            "projectName": "RedditViewer_3e97067a",
+            "args": "aa aa aa"
         },
         {
             "type": "java",
