@@ -28,6 +28,7 @@ Command line only(for now).
 #
 ## TODO
 
+- add support for all post tipes(currently it only handles text and some image and video types.);
 - switch to a more object oriented approach;
 - look into the post_hint element in the json to check if type is an image;
 - improve the graph implementation(it currently relies on editing a char array);

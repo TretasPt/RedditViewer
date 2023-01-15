@@ -1,8 +1,9 @@
 import java.io.BufferedReader;
-import java.io.FileWriter;
 import java.io.IOException;
+// import java.io.FileWriter;
+// import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Writer;
+// import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -16,7 +17,7 @@ public class JsonFetcher {
     }
     
 
-    private static JSONObject fetchJsonShort(String user,String startingPoint,char type) throws Exception {
+    private static JSONObject fetchJsonShort(String user,String startingPoint,char type) throws IOException{
         String after ="";
         if (startingPoint!=""){after="?after="+startingPoint;}
         String url = "https://reddit.com/"+type+"/"+user+".json"+after;
@@ -43,7 +44,7 @@ public class JsonFetcher {
 
       }
 
-    public static JSONObject fetchJson(String user,long timeout,char type) throws Exception {//timeout in seconds
+    public static JSONObject fetchJson(String user,long timeout,char type) throws IOException{//timeout in seconds
 
         boolean unlimited = timeout>0 ? false : true;
         long initialTime= System.nanoTime();
@@ -84,15 +85,10 @@ public class JsonFetcher {
         return fullJSON;
     }
 
-    public static JSONObject fetchJsonLatest(String user,char type) throws Exception {
+    private static JSONObject fetchJsonLatest(String user,char type) throws IOException{
       return fetchJsonShort(user, "",type);
     }
 
-    public static void toFile(JSONObject object, String filename) throws IOException{
-        Writer output = new FileWriter(filename);
-        object.write(output);
-        output.flush();
-        output.close();
-    }
+
 
 }

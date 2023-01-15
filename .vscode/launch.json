@@ -23,6 +23,7 @@
         {
             "type": "java",
             "name": "Launch App",
+            "console": "externalTerminal",
             "cwd": "${workspaceFolder}/bin",
             "request": "launch",
             "mainClass": "App",

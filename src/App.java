@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,15 +10,18 @@ public class App {
     private boolean saveOutput;
     private boolean showJason;
     private boolean showOutput;
-    private boolean isNewUser;
+    private boolean newUser;
     private boolean clearScreen;
     // private final boolean clearScreen;
-    private int screenHeight;
-    private int screenWidth;
-    private List<String> arguments;
+    // private int screenHeight;
+    // private int screenWidth;
+    private boolean colorTerminal;
+    private Extras.Point screenSize;
+    
+    private List<String> arguments = new LinkedList<String>();
     private final Scanner input = new Scanner(System.in);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         Extras.clearScreen(true);
         System.out.println();
@@ -34,17 +38,19 @@ public class App {
         if (args.length == 0) {
             getAndSetDefaults();
             setScreenSize(Extras.getScreenSize(input, clearScreen));
-            this.arguments = new LinkedList<String>();
+            // this.arguments = new LinkedList<String>();
         } else {
             saveJason = false;
             saveOutput = false;
             showJason = false;
             showOutput = true;
-            isNewUser = false;
+            newUser = false;
             clearScreen = true;
-            screenHeight = 40;
-            screenWidth = 150;
-            arguments = new LinkedList<String>();
+            colorTerminal = false;
+            screenSize = new Extras.Point(150, 40);
+            // screenHeight = 40;
+            // screenWidth = 150;
+            // arguments = new LinkedList<String>();
             // for (String s : args)
             // arguments.add(s);
             arguments.addAll(Extras.addToArguments(args));
@@ -52,7 +58,7 @@ public class App {
         }
     }
 
-    private void fetch() throws Exception {
+    private void fetch() {
         // Extras.clearScreen();
 
         // Get the type(subreddit or user)
@@ -76,14 +82,20 @@ public class App {
         System.out.print("\n\n");
 
         // Fetch the user activity(json)
-        JSONObject json = JsonFetcher.fetchJson(user, timeout, type);
+        JSONObject json;
+        try {
+            json = JsonFetcher.fetchJson(user, timeout, type);
+        } catch (IOException e) {
+            System.out.println("Unable to get the requested information of type " + type + " and query " + user);
+            return;
+        }
         // Print the user activity(json)
 
         // Save the user activity(json)
         if (Extras.saveToFile("json", input)) {
             String filenameJson = input.next();
-            JsonFetcher.toFile(json, "../output/" + Extras.extensionCheck(filenameJson, "json"));// (json,
-                                                                                                 // "../"+filenameJson);
+            Extras.toFile(json, "../output/" + Extras.extensionCheck(filenameJson, "json"));// (json,
+                                                                                            // "../"+filenameJson);
             System.out.println("JSON object saved to \"" + Extras.extensionCheck(filenameJson, "json") + "\"");
         }
 
@@ -94,14 +106,14 @@ public class App {
         // Save the user activity(formated text)
         if (Extras.saveToFile("formated text", input)) {
             String filenameOutput = input.next();
-            JsonReader.toFile(output, "../output/" + Extras.extensionCheck(filenameOutput, "txt"));// (json,
-                                                                                                   // "../"+filenameJson);
+            Extras.toFile(output, "../output/" + Extras.extensionCheck(filenameOutput, "txt"));// (json,
+                                                                                               // "../"+filenameJson);
             System.out.println("Output saved to \"" + Extras.extensionCheck(filenameOutput, "txt") + "\"");
         }
 
     }
 
-    private void appLoop() throws Exception {
+    private void appLoop() {
 
         boolean exit = false;
         while (!exit) {
@@ -114,7 +126,8 @@ public class App {
         while (wantsToChange) {
             Extras.clearScreen(clearScreen);
             System.out.println("Save Jason files: " + saveJason + "\nSave output files: " + saveOutput
-                    + "\nShow Jason: " + showJason + "\nShow output: " + showOutput + "\nShow hints: " + isNewUser
+                    + "\nShow Jason: " + showJason + "\nShow output: " + showOutput + "\nShow hints: " + newUser
+                    + "\nUse colored terminal: " + colorTerminal
                     + "\nClear screen(Disable if there are printing problems. You can test it by repeating this changes.): "
                     + clearScreen);
             System.out.println("Would you like to make any changes?");
@@ -132,9 +145,11 @@ public class App {
             System.out.println("Show output?");
             showOutput = Extras.isAfirmativeAnswer(input.nextLine());
             System.out.println("Show hints?");
-            isNewUser = Extras.isAfirmativeAnswer(input.nextLine());
+            newUser = Extras.isAfirmativeAnswer(input.nextLine());
             System.out.println("Clear screen?");
             clearScreen = Extras.isAfirmativeAnswer(input.nextLine());
+            System.out.println("Color terminal?");
+            colorTerminal = Extras.isAfirmativeAnswer(input.nextLine());
         }
 
     }
@@ -146,8 +161,8 @@ public class App {
         } else {
             switch (arguments.get(0).toLowerCase()) {
 
-                case "-start":
-                // TODO Only a temporary fix
+                case "start":
+                    // TODO Only a temporary fix
                     try {
                         fetch();
                     } catch (Exception e) {
@@ -156,9 +171,9 @@ public class App {
                     }
                     arguments.remove(0);
                     break;
-                case "--exit":
+                case "exit":
                 case "-q":
-                case "--quit":
+                case "quit":
                     if (arguments.size() != 1) {
                         System.out
                                 .println("There are still commands to be ran. Use \"-q!\" to force close the program.");
@@ -166,17 +181,22 @@ public class App {
                         break;
                     }
                 case "-q!":
-                case "--quit!":
+                case "quit!":
                     return true;
 
                 case "-sdi":
-                    getAndSetDefaults();
-                break;
-                case "--set-defaults-interface":
+                    // getAndSetDefaults();
+                    // break;
+                case "--set-default-interface":
                     getAndSetDefaults();
                     arguments.remove(0);
                     break;
-
+                case "-sdss":
+                case "--set-default-screen-size":
+                    // getAndSetDefaults();
+                    setScreenSize(Extras.getScreenSize(input, clearScreen,screenSize));
+                    arguments.remove(0);
+                    break;
 
                 case "-sd-saj":
                     if (Extras.hasRequiredArguments(arguments.size(), 2, true)) {
@@ -224,10 +244,10 @@ public class App {
                     break;
                 case "-sd-shelp":
                     if (Extras.hasRequiredArguments(arguments.size(), 2, true)) {
-                        isNewUser = Extras.isAfirmativeAnswer(arguments.get(1));
+                        newUser = Extras.isAfirmativeAnswer(arguments.get(1));
                         arguments.remove(0);
                         arguments.remove(0);
-                        System.out.println("isNewUser set to " + isNewUser);
+                        System.out.println("isNewUser set to " + newUser);
                     } else {
                         System.out.println("Not enough arguments for: " + arguments.get(0) + "\nIgnoring it.");
                         arguments.remove(0);
@@ -256,8 +276,9 @@ public class App {
     }
 
     private void setScreenSize(Extras.Point point) {
-        screenWidth = point.getX();
-        screenHeight = point.getY();
+        // screenWidth = point.getX();
+        // screenHeight = point.getY();
+        screenSize = point;
     }
 
 }

@@ -1,7 +1,12 @@
 import org.json.JSONObject;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 // import java.io.BufferedInputStream;
 // import java.io.InputStream;
 // import java.nio.file.Files;
@@ -24,8 +29,10 @@ public class Extras {
     public static final String textOutputColorYellow = "\u001B[33m";// Comments.
 
     public static class Point {
-        private final int x;
-        private final int y;
+        // private final int x;
+        // private final int y;
+        private int x;
+        private int y;
 
         public Point(int x, int y) {
             this.x = x;
@@ -44,6 +51,21 @@ public class Extras {
         public int getY() {
             return y;
         }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+
+    }
+
+    public static class Settings {
+        private Map<String,Boolean> settings= new HashMap();
+        private Map<String,List<String>> aliases= new HashMap();
+        
     }
 
     public static String extensionCheck(String filename, String extention) {
@@ -297,20 +319,21 @@ public class Extras {
 
     public static void clearScreen(boolean enabled) {
         if (enabled) {
-            System.out.print("\033[H\033[2J"); // clears the console(first move the cursor, then clear from the cursor down)
+            System.out.print("\033[H\033[2J"); // clears the console(first move the cursor, then clear from the cursor
+                                               // down)
             System.out.flush(); // reset the cursor position
         }
 
     }
 
-    public static Point getScreenSize(Scanner input,boolean clearScreen) {
+    public static Point getScreenSize(Scanner input, boolean clearScreen, Point screenSize) {
 
         // new KeyListener(){};
         // KeyInfo=Console.
         char[] keypressed = { '0' };
 
-        int x = 12;
-        int y = 5;
+        int x = screenSize.getX();
+        int y = screenSize.getY();
 
         lable: while (keypressed.length != 0 && keypressed[0] != 'b') {
             clearScreen(clearScreen);
@@ -345,6 +368,10 @@ public class Extras {
 
         System.out.println("x= " + x + "\ny= " + y);
         return new Point(x, y);
+    }
+
+    public static Point getScreenSize(Scanner input, boolean clearScreen) {
+        return getScreenSize(input, clearScreen, new Point(12, 5));
     }
 
     // public static void drawSquare(int x, int y) throws InterruptedException {
@@ -504,7 +531,7 @@ public class Extras {
     }
 
     public static boolean isAfirmativeAnswer(String s) {
-        String[] affirmatives = { "yes", "y", "true", "1","t" };
+        String[] affirmatives = { "yes", "y", "true", "1", "t" };
         s = s.toLowerCase();
         for (String affirmative : affirmatives) {
             if (affirmative.equals(s))
@@ -513,25 +540,55 @@ public class Extras {
         return false;
     }
 
-    public static List<String> addToArguments(String s){
+    public static List<String> addToArguments(String s) {
         return addToArguments(s.split(" "));
     }
 
-    public static List<String> addToArguments(String[] s){
-        List<String> list= new LinkedList<String>();
+    public static List<String> addToArguments(String[] s) {
+        List<String> list = new LinkedList<String>();
         for (String arg : s)
-                list.add(arg);
+            list.add(arg);
         return list;
     }
 
-    public static boolean hasRequiredArguments(int existing, int needed, boolean print){
-        if(existing<needed){
-            if (print){
-                System.out.println("Not enough arguments. needs " + needed + " but only has " + existing +" .");
+    public static boolean hasRequiredArguments(int existing, int needed, boolean print) {
+        if (existing < needed) {
+            if (print) {
+                System.out.println("Not enough arguments. needs " + needed + " but only has " + existing + " .");
                 return false;
             }
         }
         return true;
+    }
+
+    public static void toFile(JSONObject object, String filename) {
+        try {
+            Writer output;
+            output = new FileWriter(filename);
+
+            object.write(output);
+            output.flush();
+            output.close();
+        } catch (IOException e) {
+            System.out.println("Unable to save" + filename + " to a file.");
+        }
+    }
+
+    public static void toFile(String object, String filename) {
+        try {
+            Writer output;
+            output = new FileWriter(filename);
+
+            output.write(object);
+            output.flush();
+            output.close();
+        } catch (IOException e) {
+            System.out.println("Unable to save" + filename + " to a file.");
+        }
+    }
+
+    private static void toFile(Object object, String filename) {
+
     }
 
     // public static void temp_save(String url){

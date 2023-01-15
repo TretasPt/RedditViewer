@@ -1,8 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+// import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
+// import java.io.Writer;
 import java.util.HashSet;
 // import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,10 +16,10 @@ public class JsonReader {
 
     
 
-    public static final String textOutputColorReset = "\u001B[0m";
-    public static final String textOutputColorBlue = "\u001B[34m";//Post titles and statistics.
-    public static final String textOutputColorRed = "\u001B[31m";//Error messages.
-    public static final String textOutputColorYellow = "\u001B[33m";//Comments.
+    private static final String textOutputColorReset = "\u001B[0m";
+    private static final String textOutputColorBlue = "\u001B[34m";//Post titles and statistics.
+    private static final String textOutputColorRed = "\u001B[31m";//Error messages.
+    private static final String textOutputColorYellow = "\u001B[33m";//Comments.
 
     private static int posts=0;
     private static int wordsP=0;
@@ -56,6 +56,12 @@ public class JsonReader {
         String output="";
         JSONArray children = obj.getJSONObject("data").getJSONArray("children");
         Extras.Point[] graphPoints=new Extras.Point[children.length()];
+
+        
+        images.clear();
+        videos.clear();
+        links.clear();
+        temp_types.clear();
 
         for (int i = 0 ; i != children.length();i++){
             
@@ -136,12 +142,6 @@ public class JsonReader {
         return post.getJSONObject("data").getString("title")+"\n\n"+post.getJSONObject("data").getString("selftext")+"\n"+image+"\n\n"+Extras.statsWc(post);
     }
 
-    public static void toFile(String object, String filename) throws IOException{
-        Writer output = new FileWriter(filename);
-        // object.write(output);
-        output.write(object);
-        output.flush();
-        output.close();
-    }
+
 
 }
