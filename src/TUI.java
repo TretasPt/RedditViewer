@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 import org.json.JSONObject;
 
-public class App {
+public class TUI {
 
     private boolean saveJason;
     private boolean saveOutput;
@@ -23,7 +23,7 @@ public class App {
         Extras.clearScreen(true);
         System.out.println();
 
-        App thisApp = new App(args);
+        TUI thisApp = new TUI(args);
 
         Extras.clearScreen(true);
         Extras.printLogo(thisApp.colorTerminal);
@@ -32,7 +32,7 @@ public class App {
 
     }
 
-    public App(String[] args) {
+    public TUI(String[] args) {
         if (args.length == 0) {
             getAndSetDefaults();
             setScreenSize(Extras.getScreenSize(input, clearScreen));

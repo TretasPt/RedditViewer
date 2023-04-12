@@ -16,7 +16,7 @@
             "name": "Launch Main with arguments",
             "cwd": "${workspaceFolder}/bin",
             "request": "launch",
-            "mainClass": "App",
+            "mainClass": "TUI",
             "projectName": "RedditViewer_3e97067a",
             "args": "aa aa aa"
         },
@@ -29,11 +29,11 @@
         },
         {
             "type": "java",
-            "name": "Launch App",
+            "name": "Launch TUI",
             "console": "externalTerminal",
             "cwd": "${workspaceFolder}/bin",
             "request": "launch",
-            "mainClass": "App",
+            "mainClass": "TUI",
             "projectName": "RedditViewer_3e97067a"
         }
     ]

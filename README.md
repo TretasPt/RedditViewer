@@ -28,6 +28,7 @@ Command line only(for now).
 #
 ## TODO
 
+- make sure color is only printed if the variable supports color(check if user set it on);
 - add support for all post tipes(currently it only handles text and some image and video types.);
 - switch to a more object oriented approach;
 - look into the post_hint element in the json to check if type is an image;
