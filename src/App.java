@@ -12,12 +12,9 @@ public class App {
     private boolean showOutput;
     private boolean newUser;
     private boolean clearScreen;
-    // private final boolean clearScreen;
-    // private int screenHeight;
-    // private int screenWidth;
     private boolean colorTerminal;
     private Extras.Point screenSize;
-    
+
     private List<String> arguments = new LinkedList<String>();
     private final Scanner input = new Scanner(System.in);
 
@@ -28,7 +25,8 @@ public class App {
 
         App thisApp = new App(args);
 
-        Extras.printLogo();
+        Extras.clearScreen(true);
+        Extras.printLogo(thisApp.colorTerminal);
 
         thisApp.appLoop();
 
@@ -156,12 +154,12 @@ public class App {
 
     private boolean analiseArguments() {// returns true if the command specified is to exit
         if (arguments.isEmpty()) {
-            System.out.print(">");
+            System.out.print(Extras.TEXT_OUTPUT_COLOR_BLUE + ">" + Extras.TEXT_OUTPUT_COLOR_RESET);
             arguments.addAll(Extras.addToArguments(input.nextLine()));
         } else {
             switch (arguments.get(0).toLowerCase()) {
 
-                case "start":
+                case "-start":
                     // TODO Only a temporary fix
                     try {
                         fetch();
@@ -171,9 +169,9 @@ public class App {
                     }
                     arguments.remove(0);
                     break;
-                case "exit":
+                case "-exit":
                 case "-q":
-                case "quit":
+                case "-quit":
                     if (arguments.size() != 1) {
                         System.out
                                 .println("There are still commands to be ran. Use \"-q!\" to force close the program.");
@@ -181,7 +179,7 @@ public class App {
                         break;
                     }
                 case "-q!":
-                case "quit!":
+                case "-quit!":
                     return true;
 
                 case "-sdi":
@@ -194,7 +192,7 @@ public class App {
                 case "-sdss":
                 case "--set-default-screen-size":
                     // getAndSetDefaults();
-                    setScreenSize(Extras.getScreenSize(input, clearScreen,screenSize));
+                    setScreenSize(Extras.getScreenSize(input, clearScreen, screenSize));
                     arguments.remove(0);
                     break;
 
@@ -263,6 +261,22 @@ public class App {
                         System.out.println("Not enough arguments for: " + arguments.get(0) + "\nIgnoring it.");
                         arguments.remove(0);
                     }
+                    break;
+
+                case "":
+                    // if (Extras.hasRequiredArguments(arguments.size(), 2, true)) {
+                    // clearScreen = Extras.isAfirmativeAnswer(arguments.get(1));
+                    // arguments.remove(0);
+                    // arguments.remove(0);
+                    // System.out.println("clearScreen set to " + clearScreen);
+                    // } else {
+                    // System.out.println("Not enough arguments for: " + arguments.get(0) +
+                    // "\nIgnoring it.");
+                    // arguments.remove(0);
+                    // }
+                    System.out.print(Extras.TEXT_OUTPUT_COLOR_BLUE + ">" + Extras.TEXT_OUTPUT_COLOR_RESET);
+                    // arguments.addAll(Extras.addToArguments(input.nextLine()));
+                    arguments.remove(0);
                     break;
 
                 default:

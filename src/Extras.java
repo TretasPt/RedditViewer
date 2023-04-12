@@ -23,10 +23,10 @@ import java.util.Scanner;
 
 public class Extras {
 
-    public static final String textOutputColorReset = "\u001B[0m";
-    public static final String textOutputColorBlue = "\u001B[34m";// Post titles and statistics.
-    public static final String textOutputColorRed = "\u001B[31m";// Error messages.
-    public static final String textOutputColorYellow = "\u001B[33m";// Comments.
+    public static final String TEXT_OUTPUT_COLOR_RESET = "\u001B[0m";
+    public static final String TEXT_OUTPUT_COLOR_BLUE = "\u001B[34m";// Post titles and statistics.
+    public static final String TEXT_OUTPUT_COLOR_RED = "\u001B[31m";// Error messages.
+    public static final String TEXT_OUTPUT_COLOR_YELLOW = "\u001B[33m";// Comments.
 
     public static class Point {
         // private final int x;
@@ -63,9 +63,9 @@ public class Extras {
     }
 
     public static class Settings {
-        private Map<String,Boolean> settings= new HashMap();
-        private Map<String,List<String>> aliases= new HashMap();
-        
+        private Map<String, Boolean> settings = new HashMap();
+        private Map<String, List<String>> aliases = new HashMap();
+
     }
 
     public static String extensionCheck(String filename, String extention) {
@@ -84,15 +84,15 @@ public class Extras {
                 // output+=printT1(post);
                 return post.getJSONObject("data").getString("body").split("[ \n]").length;
             case "t2":
-                System.out.println(textOutputColorRed + "An error has occurred. kind=" + post.getString("kind")
-                        + textOutputColorReset + "\t\tI don't know how to handle t2 yet.");
+                System.out.println(TEXT_OUTPUT_COLOR_RED + "An error has occurred. kind=" + post.getString("kind")
+                        + TEXT_OUTPUT_COLOR_RESET + "\t\tI don't know how to handle t2 yet.");
                 return -1;
             case "t3":
                 return post.getJSONObject("data").getString("selftext").split("[ \n]").length;
             // output+=printT3(post);
             default:
-                System.out.println(textOutputColorRed + "An error has occurred. kind=" + post.getString("kind")
-                        + textOutputColorReset);
+                System.out.println(TEXT_OUTPUT_COLOR_RED + "An error has occurred. kind=" + post.getString("kind")
+                        + TEXT_OUTPUT_COLOR_RESET);
                 return -1;
         }
         // return post.getJSONObject("data").getString("selftext").split("[
@@ -281,6 +281,16 @@ public class Extras {
         System.out.println(
                 "█████████████████████████████████████████████████████████████████████████████████████████████████████████████\n██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██\n██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██\n████████████████░░░░░░███████████████████████████████████████████████████████████████████████████████████████\n              ██░░░░░░██\n              ██░░░░░░██      ██████████████████████         ████████████████████████████████████\n              ██░░░░░░██      ██░░░░░░░░░░░░░░░░░░░░███      ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██\n              ██░░░░░░██      ██░░█████████████████░░░██     █████████████████░░█████████████████\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░██              ██░░██                    ██░░██\n              ██░░░░░░██      ██░░█████████████████░░░██                    ██░░██\n              ██░░░░░░██      ██░░░░░░░░░░░░░░░░░░░░███                     ██░░██\n              ██░░░░░░██      ██░░██████████████████                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██░░░░░░██      ██░░██                                        ██░░██\n              ██████████      ██████                                        ██████\n\n\n\n");
         System.out.println("RedditViewer.\n\n\n\n");
+    }
+
+    public static void printLogo(boolean color) {
+        if (color) {
+            System.out.println(TEXT_OUTPUT_COLOR_BLUE);
+            printLogo();
+            System.out.println(TEXT_OUTPUT_COLOR_RESET);
+        } else {
+            printLogo();
+        }
     }
 
     public static void drawPoints(char[] charGraph, int[] values, char line, int paddingAmount, int graphlength,
@@ -541,6 +551,8 @@ public class Extras {
     }
 
     public static List<String> addToArguments(String s) {
+        if (s.equals(""))
+            return new LinkedList<String>();
         return addToArguments(s.split(" "));
     }
 
