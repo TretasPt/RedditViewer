@@ -1,3 +1,4 @@
+package RedditViewer;
 import java.io.File;
 import java.io.FileNotFoundException;
 // import java.io.FileWriter;
@@ -89,7 +90,7 @@ public class JsonReader {
         // Graph
         // System.out.println("\n\n" +
         // Extras.simpleGraph(graphPoints,"textOutputColorBlue","textOutputColorYellow"));
-        output += "\n\n" + Extras.simpleGraph(graphPoints);
+        output += "\n\n" + GraphsTUI.simpleGraph(graphPoints);
 
         // Statistics
         // System.out.println("Posts: "+posts+"\nWords: "+wordsP+"\nAverage:

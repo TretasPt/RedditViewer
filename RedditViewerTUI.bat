@@ -1,4 +1,4 @@
 @ECHO OFF
 cd ./bin
-java -cp "../lib/*;." TUI
+java -cp "../lib/*;." RedditViewer.TUI
 @REM pause

@@ -31,9 +31,9 @@
             "type": "java",
             "name": "Launch TUI",
             "console": "externalTerminal",
-            "cwd": "${workspaceFolder}/bin",
+            "cwd": "${workspaceFolder}/bin/RedditViewer",
             "request": "launch",
-            "mainClass": "TUI",
+            "mainClass": "RedditViewer.TUI",
             "projectName": "RedditViewer_3e97067a"
         }
     ]
