@@ -1,5 +1,5 @@
-# .vscode/settings.json
-# lib/json-20220320.jar
 /PERSONAL
 /output    
-    
+bin/
+.vscode/
+.code-workspace

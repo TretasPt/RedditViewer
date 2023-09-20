@@ -52,7 +52,7 @@ public class JsonFetcher {
 
     public static JSONObject fetchJson(String user, long timeout, char type) throws IOException {// timeout in seconds
 
-        boolean unlimited = timeout > 0 ? false : true;
+        boolean unlimited = timeout >= 0 ? false : true;
         long initialTime = System.nanoTime();
         // System.out.println(initialTime);
 
@@ -67,8 +67,6 @@ public class JsonFetcher {
         System.out.println("Posts found: " + fullData.getInt("dist"));
 
         while (after != "" && (unlimited || System.nanoTime() - initialTime <= timeout * 1000000000)) {
-            // System.out.println(initialTime+"-"+System.nanoTime()+"="+(System.nanoTime()-initialTime)+"<="+timeout*1000000000+"-->"+(System.nanoTime()-initialTime
-            // <= timeout*1000000000));
             tempData = fetchJsonShort(user, after, type).getJSONObject("data");
             after = tempData.optString("after");
             childrenArray = tempData.getJSONArray("children");

@@ -1,4 +1,5 @@
 package RedditViewer;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -58,7 +59,6 @@ public class TUI {
     }
 
     private void fetch() {
-        // Extras.clearScreen();
 
         // Get the type(subreddit or user)
         System.out.print("Do you want to search a subreddit or a user? (r/u):\n");
@@ -76,7 +76,7 @@ public class TUI {
         System.out.print("\n\n");
 
         // Get the time limit
-        System.out.print("Enter the time limit for fetching posts(use 0 for unlimited):\n");
+        System.out.print("Enter the time limit for fetching posts(use -1 for unlimited):\n");
         long timeout = input.nextLong();
         System.out.print("\n\n");
 
@@ -168,6 +168,10 @@ public class TUI {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                    arguments.remove(0);
+                    break;
+                case "-test":
+                    getAndSetDefaults();
                     arguments.remove(0);
                     break;
                 case "-exit":

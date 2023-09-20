@@ -1,31 +1,32 @@
+# Reddit Viewer
+
 ## Objective
 
 Get a text based version of all of a user's activity. The output is suposed to be user freindly, but able to be seen in any console terminal.
 
-#
 ## Usage
 
-This app is terminal only(for now).    
-Open a terminal in the bin folder(right mouse button, open in terminal).    
-Write or paste the following command: 
-``` 
+This app is terminal only(for now).  
+Open a terminal in the bin folder(right mouse button, open in terminal).  
+Write or paste the following command:  
+
+```bash
 java -cp "../lib/*;." App
 ```
-#
+
 ## Dependencies
 
 org.json(included in the lib folder)
-#
+
 ## Status
 
 Basic functionality assured.  
 Support for extracting entire accounts.  
 Support for saving json data and formated data to files.  
   
+No suport for non text based posts yet.  
+Command line only(for now).  
 
-No suport for non text based posts yet.    
-Command line only(for now).    
-#
 ## TODO
 
 - make sure color is only printed if the variable supports color(check if user set it on);
@@ -37,7 +38,7 @@ Command line only(for now).
 - use requested terminal size for the graphs;
 - add separate graph for posts/time in adition to the current words/time;
 - check if the URL response = 200(check if account/subreddit exists and there is a connection);
-- fix the word count function;   
-- find out what is a post of kind t2.(t1=comment,t3=textpost)(t1_	Comment;t2_	Account;t3_	Link;t4_	Message;t5_	Subreddit;t6_	Award);    
-- search limitations to the ammount of posts one can fetch from reddit;    
-- add an (optional) GUI.    
+- fix the word count function;  
+- find out what is a post of kind t2.(t1=comment,t3=textpost)(t1_Comment;t2_Account;t3_Link;t4_Message;t5_Subreddit;t6_ Award);  
+- search limitations to the ammount of posts one can fetch from reddit;  
+- add an (optional) GUI.  
