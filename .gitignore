@@ -2,4 +2,4 @@
 /output    
 bin/
 .vscode/
-.code-workspace
+*.code-workspace
